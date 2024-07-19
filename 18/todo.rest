@@ -1,0 +1,13 @@
+### List todo items
+GET http://localhost:8080/items
+
+### Add todo item
+POST http://localhost:8080/items
+Content-Type: application/json
+
+{
+	"name": "name"
+}
+
+### Remove todo item
+DELETE http://localhost:8080/items/0b5ebd62-e4d6-4544-943b-b928aff8800e

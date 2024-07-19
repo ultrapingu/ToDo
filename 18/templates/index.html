@@ -1,0 +1,41 @@
+{{define "title"}}ToDo App{{end}}
+{{define "scripts"}}
+<script>
+	function deleteItem(id) {
+		$.ajax({
+			url: '/api/item/' + id,
+			type: 'DELETE',
+			success: function(result) {
+					window.location.replace("/");
+			}
+		});
+	}
+</script>
+{{end}}
+{{define "body"}}
+
+	{{if eq (len .) 0}}
+	<h3>Nothing to see here</h3>
+	{{else}}
+		<table>
+			<tr>
+				<td>ID</td>
+				<td>Title</td>
+				<td>Status</td>
+				<td></td>
+				<td></td>
+			</tr>
+			{{range .}}
+			<tr>
+					<td>{{.ID}}</td>
+					<td>{{.Title}}</td>
+					<td>{{.Status}}</td>
+					<td><a href="/item/{{.ID}}">Edit</a></td>
+					<td><button onclick="deleteItem('{{.ID}}')">Delete</button></td>
+			</tr>
+			{{end}}
+		</table>
+	{{end}}
+
+	<btn><a href="/items/create">Create</a></btn>
+{{end}}

@@ -1,0 +1,38 @@
+{{define "title"}}.Title{{end}}
+{{define "scripts"}}
+<script>
+$(document).ready(function() {
+	$('#updateForm').submit(function(e) {
+			var values = {};
+			$.each($('#updateForm').serializeArray(), function(i, field) {
+					values[field.name] = field.value;
+			});
+
+			fetch("/api/item/" + values["id"], {
+				method: "PUT",
+				body: JSON.stringify(values),
+				headers: {
+					"Content-type": "application/json; charset=UTF-8"
+				}
+			});
+
+			e.preventDefault();
+			window.location.replace("/");
+	});
+});
+</script>
+{{end}}
+{{define "body"}}
+<form id="updateForm">
+  <input type="text" name="title" value="{{.Title}}">
+	<input type="radio" id="pending" name="status" value="pending" {{if eq .Status "pending"}}checked="checked"{{end}} >
+	<label for="pending">Pending</label><br>
+	<input type="radio" id="inprogress" name="status" value="inprogress" {{if eq .Status "inprogress"}}checked="checked"{{end}}>
+	<label for="inprogress">In Progress</label><br>
+	<input type="radio" id="done" name="status" value="done" {{if eq .Status "done"}}checked="checked"{{end}}>
+	<label for="done">Done</label>
+
+  <input type="hidden" name="id" value="{{.ID}}">
+  <button id="submit" type="submit">Update</button>
+</form>
+{{end}}
